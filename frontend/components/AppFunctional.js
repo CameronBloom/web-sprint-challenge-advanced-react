@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
+import axios from 'axios'
 
 // Suggested initial states
 const initialMessage = ''
@@ -26,14 +27,14 @@ export default function AppFunctional(props) {
     }
   }
 
-  function getXYMessage() {
-    // It it not necessary to have a state to track the "Coordinates (2, 2)" message for the user.
-    // You can use the `getXY` helper above to obtain the coordinates, and then `getXYMessage`
-    // returns the fully constructed string.
-    const msgName = form.email.split("@")[0];
-    const msgWin = 37 + (6 * counter);
-    return `${msgName} win #${msgWin}`
-  }
+  // function getXYMessage() {
+  //   // It it not necessary to have a state to track the "Coordinates (2, 2)" message for the user.
+  //   // You can use the `getXY` helper above to obtain the coordinates, and then `getXYMessage`
+  //   // returns the fully constructed string.
+  //   const msgName = form.email.split("@")[0];
+  //   const msgWin = form.message;
+  //   return `${msgName} win #${msgWin}`
+  // }
 
   function reset() {
     // Use this helper to reset all states to their initial values.
@@ -107,8 +108,17 @@ export default function AppFunctional(props) {
   }
 
   function onSubmit(evt) {
+    // Use a POST request to send a payload to the server.
     evt.preventDefault();
-    setForm({ ...form, "email": initialEmail, "message": getXYMessage()});
+    const { email } = form;
+    const arrCoordinates = getXY()
+    axios.post("http://localhost:9000/api/result", { "x": arrCoordinates[0], "y": arrCoordinates[1], "steps": counter, "email": email })
+      .then(res => {
+        setForm({ ...form, "email": initialEmail, "message": res.data.message });
+        console.log("success =>", res.data);
+        
+      })
+      .catch(err => console.error(err))
   }
 
   return (
