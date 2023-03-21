@@ -40,17 +40,6 @@ export default class AppClass extends React.Component {
     }
   }
 
-  // CALCULATION
-  // getXYMessage = () => {
-  //   // It it not necessary to have a state to track the "Coordinates (2, 2)" message for the user.
-  //   // You can use the `getXY` helper above to obtain the coordinates, and then `getXYMessage`
-  //   // returns the fully constructed string.
-  //   const { email, steps } = this.state
-  //   const msgName = email.split("@")[0];
-  //   const msgWin = 37 + (6 * steps);
-  //   return `${msgName} win #${msgWin}`
-  // }
-
   reset = () => {
     // Use this helper to reset all states to their initial values.
     const { message, email, index, steps } = initialState
@@ -61,12 +50,47 @@ export default class AppClass extends React.Component {
     // This helper takes a direction ("left", "up", etc) and calculates what the next index
     // of the "B" would be. If the move is impossible because we are at the edge of the grid,
     // this helper should return the current index unchanged.
+    const { id } = direction.target;
+    const { index, steps } = this.state;
+    switch(id) {
+      case "left":
+        if (index !== 0 && index !== 3 && index !== 6) {
+          this.setState({ "index": index - 1, "steps": steps + 1, "message": "" });
+        } else {
+          this.setState({ "message": "You can't go left" });
+        }
+        break;
+      case "up":
+        if (index !== 0 && index !== 1 && index !== 2) {
+          this.setState({ "index": index - 3, "steps": steps + 1, "message": "" });
+        } else {
+          this.setState({ "message": "You can't go up" });
+        }
+        break;
+      case "right":
+        if (index !== 2 && index !== 5 && index !== 8) {
+          this.setState({ "index": index + 1, "steps": steps + 1, "message": "" });
+        } else {
+          this.setState({ "message": "You can't go right" });
+        }
+        break;
+      case "down":
+        if (index !== 6 && index !== 7 && index !== 8) {
+          this.setState({ "index": index + 3, "steps": steps + 1, "message": "" });
+        } else {
+          this.setState({ "message": "You can't go down" });
+        }
+        break;
+      default:
+        console.log(`Invalid Argument...`)
+    }
   }
 
   move = (evt) => {
     // This event handler can use the helper above to obtain a new index for the "B",
     // and change any states accordingly.
-    
+    const event = evt;
+    this.getNextIndex(event)
   }
 
   // STATE CHANGE
