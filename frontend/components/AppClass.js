@@ -14,6 +14,16 @@ const initialState = {
 }
 
 export default class AppClass extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      form: { email: initialEmail, message: initialMessage },
+      counter: initialSteps,
+      currIndex: initialIndex
+    }
+  }
+
+
   // THE FOLLOWING HELPERS ARE JUST RECOMMENDATIONS.
   // You can delete them and build your own logic from scratch.
 
@@ -57,7 +67,7 @@ export default class AppClass extends React.Component {
       <div id="wrapper" className={className}>
         <div className="info">
           <h3 id="coordinates">Coordinates (2, 2)</h3>
-          <h3 id="steps">You moved 0 times</h3>
+          <h3 id="steps">You moved {this.state.counter} times</h3>
         </div>
         <div id="grid">
           {
