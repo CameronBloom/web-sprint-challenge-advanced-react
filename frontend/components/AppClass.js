@@ -110,7 +110,14 @@ export default class AppClass extends React.Component {
         console.log("success =>", res.data);
         this.setState({ "message": res.data.message, "email": initialEmail });
       })
-      .catch(err => console.error(err))
+      .catch(err => 
+        {
+          console.error(err)
+          if (email === "") this.setState({ "message": "Ouch: email is required" });
+          if (email !== "" && !email.includes("@")) this.setState({ "message": "Ouch: email must be a valid email" });
+          if (email !== "" && !email.slice(email.length - 4).includes(".com")) this.setState({ "message": err.response.data.message });
+        }
+      )
   }
 
   render() {
@@ -120,8 +127,8 @@ export default class AppClass extends React.Component {
     return (
       <div id="wrapper" className={ className }>
         <div className="info">
-          <h3 id="coordinates">Coordinates ({ this.getXY().join(", ")} )</h3>
-          <h3 id="steps">You moved { steps } times</h3>
+          <h3 id="coordinates">Coordinates ({ this.getXY().join(", ")})</h3>
+          <h3 id="steps">You moved {steps === 1 ? steps + " time" : steps + " times"}</h3>
         </div>
         <div id="grid">
           {

@@ -114,8 +114,9 @@ export default function AppFunctional(props) {
     const arrCoordinates = getXY()
     axios.post("http://localhost:9000/api/result", { "x": arrCoordinates[0], "y": arrCoordinates[1], "steps": counter, "email": email })
       .then(res => {
-        setForm({ ...form, "email": initialEmail, "message": res.data.message });
         console.log("success =>", res.data);
+        setForm({ ...form, "email": initialEmail, "message": res.data.message });
+        
         
       })
       .catch(err => 
