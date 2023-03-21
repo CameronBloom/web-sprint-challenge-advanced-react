@@ -118,7 +118,14 @@ export default function AppFunctional(props) {
         console.log("success =>", res.data);
         
       })
-      .catch(err => console.error(err))
+      .catch(err => 
+        {
+          console.error(err)
+          if (email === "") setForm({ ...form, "message": "Ouch: email is required" });
+          if (email !== "" && !email.includes("@")) setForm({ ...form, "message": "Ouch: email must be a valid email" });
+          if (email !== "" && !email.slice(email.length - 4).includes(".com")) setForm({ ...form, "message": err.response.data.message });
+        }
+      )
   }
 
   return (
@@ -126,7 +133,7 @@ export default function AppFunctional(props) {
       <div className="info">
         {/* <h3 id="coordinates">Coordinates (2, 2)</h3> */}
         <h3 id="coordinates">Coordinates ({getXY().join(", ")})</h3>
-        <h3 id="steps">You moved {counter} times</h3>
+        <h3 id="steps">You moved {counter === 1 ? counter + " time" : counter + " times"}</h3>
       </div>
       <div id="grid">
         {/* <Grid currIndex={currIndex} nextIndex={nextIndex} /> */}

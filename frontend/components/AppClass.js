@@ -136,10 +136,10 @@ export default class AppClass extends React.Component {
           <h3 id="message">{ message }</h3>
         </div>
         <div id="keypad">
-          <button id="left">LEFT</button>
-          <button id="up">UP</button>
-          <button id="right">RIGHT</button>
-          <button id="down">DOWN</button>
+          <button id="left" onClick = { this.move }>LEFT</button>
+          <button id="up" onClick = { this.move }>UP</button>
+          <button id="right" onClick = { this.move }>RIGHT</button>
+          <button id="down" onClick = { this.move }>DOWN</button>
           <button id="reset" onClick = { this.reset }>reset</button>
         </div>
         <form>
